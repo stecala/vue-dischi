@@ -1,8 +1,8 @@
 <template>
   <main>
       <div class="container pt-5">
-        <div class="row row-cols-5 ">
-            <SingleCard class="col" v-for="(element, index) in cardsList"  :key="index"
+        <div class="row justify-content-center">
+            <SingleCard class="col-2 me-3" v-for="(element, index) in cardsList"  :key="index"
                 :index='index'
                 :element="element" 
             />
@@ -29,12 +29,12 @@ export default {
       axios.get('https://flynn.boolean.careers/exercises/api/array/music')
       .then((result)=> {
         this.cardsList = result.data.response;
+        console.log(result.data.response)
       })
     }
   },
   created(){
     this.getCard()
-    console.log(this.cardsList)
   } 
 }
 </script>

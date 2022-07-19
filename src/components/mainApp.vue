@@ -1,6 +1,6 @@
 <template>
   <main class="d-flex justify-content-center align-items-center">
-      <div class="container pt-5" v-if="(loading)">
+      <div class="container pt-5" v-if="(loader)">
         <div class="row justify-content-center">
             <SingleCard class="col-2 me-3" v-for="(element, index) in cardsList"  :key="index"
                 :index='index'
@@ -8,7 +8,7 @@
             />
         </div>
       </div>
-      <LoaderApp v-if="(!loading)" />
+      <LoaderApp v-if="(!loader)" />
   </main>
 </template>
 
@@ -26,7 +26,7 @@ export default {
   data : function(){
     return {
       cardsList : [],
-      loading : false,
+      loader : false,
     }
   },
   methods : {
@@ -34,11 +34,12 @@ export default {
       axios.get('https://flynn.boolean.careers/exercises/api/array/music')
       .then((result)=> {
         this.cardsList = result.data.response;
+        this.timeOut()
       })
     },
     timeOut(){
       setTimeout(()=>{
-        this.loading = true
+        this.loader = true
       },2000)
     }
   },

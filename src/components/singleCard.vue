@@ -4,7 +4,7 @@
         <div class="my-card-body card-body text-center">
             <h5>{{element.title}}</h5> 
             <p >
-                {{element.author}}
+                {{element.author}}<br>{{element.year}}
             </p>
         </div>
     </div>

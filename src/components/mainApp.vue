@@ -1,19 +1,44 @@
 <template>
   <main>
-    
+      <div class="container pt-5">
+        <div class="row row-cols-5">
+            <SingleCard class="col" v-for="(element, index) in cardsList"  :key="index"/>
+        </div>
+      </div>
   </main>
 </template>
 
 <script>
+import SingleCard from './singleCard.vue'
+import axios from 'axios'
+
 export default {
+  components :{
+    SingleCard,
+  },
+  data : function(){
+    return {
+      cardsList : []
+    }
+  },
+  methods : {
+    getCard(){
+      axios.get('https://flynn.boolean.careers/exercises/api/array/music')
+      .then((result)=> {
+        this.cardsList = result.data.result;
+      })
+    }
+  },
+  created(){
+    this.getCard()
+  } 
 }
 </script>
 
 <style scoped lang="scss">
 @import "../assets/style/variables.scss";
-
 main{
-  height: 46.35vh;
+  height: calc(100vh - 70px);
   background-color: $backgroundMain;
 }
 </style>

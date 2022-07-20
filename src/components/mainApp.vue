@@ -2,8 +2,8 @@
   <main class="d-flex justify-content-center align-items-center">
     <div class="container pt-5" v-if="(loader)">
       <div class="row">
-        <genresUser class="col-4 m-auto" @select="setUserSelect" :genresList="genresList" />
-        <authorsUser class="col-4 m-auto" @selectAuthor="setAuthorSelect" :authorsList="authorsList" v-if="(userSelected!='')" />
+        <genresUser class="col-4 m-auto" @select="setUserSelect" :genresList="genresList"  />
+        <authorsUser class="col-4 m-auto" @selectAuthor="setAuthorSelect" :authorsList="filteredAuthors" v-if="(genreSelected!='')"  />
       </div>
       <div class="row justify-content-center">
         <SingleCard class="col-2 me-3" v-for="(element, index) in filteredCards" :key="index" :index='index'
@@ -32,12 +32,13 @@ export default {
     return {
       cardsList: [],
       loader: true,
-      userSelected: '',
+      genreSelected: '',
       authorSelected: '',
 
       filteredCards: [],
       genresList: [],
       authorsList: [],
+      filteredAuthors: [],
     }
   },
   methods: {
@@ -49,7 +50,7 @@ export default {
           this.initGenres()
           this.initAuthors()
           this.timeOut()
-          this.searchGenre(this.userSelected)
+          this.searchGenre(this.genreSelected)
           this.searchAuthor(this.authorSelected)
 
         })
@@ -66,8 +67,9 @@ export default {
 
     },
     setUserSelect(choice) {
-      this.userSelected = choice
-      this.searchGenre(this.userSelected)
+      this.genreSelected = choice
+      this.searchGenre(this.genreSelected)
+      this.onGenreSelected(this.genreSelected)
     },
     initGenres() {
       for (let i = 0; i < this.cardsList.length; i++) {
@@ -80,12 +82,13 @@ export default {
 
     // author zone
     searchAuthor(element) {
-      this.filteredCards = this.filteredCards.filter((artist) => artist.author.includes(element))
+      this.filteredCards = this.cardsList.filter((artist) => artist.author.includes(element))
     },
 
     setAuthorSelect(choice) {
       this.authorSelected = choice
       this.searchAuthor(this.authorSelected)
+    
     },
 
     initAuthors() {
@@ -95,6 +98,10 @@ export default {
         }
       }
     },
+    onGenreSelected(selectedGenre){
+        this.filteredAuthors = this.filteredCards.filter((card)=> card.genre == selectedGenre).map((card) => card.author)
+        console.log(this.filteredCards)
+    }
 
   },
 

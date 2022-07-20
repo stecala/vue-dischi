@@ -3,10 +3,10 @@
     <div class="container pt-5" v-if="(loader)">
       <div class="row">
         <genresUser class="col-4 m-auto" @select="setUserSelect" :genresList="genresList" />
-        <authorsUser class="col-4 m-auto" @selectAuthor="authorSelect" :authorsList="aurhorsList" />
+        <authorsUser class="col-4 m-auto" @selectAuthor="setAuthorSelect" :authorsList="authorsList" />
       </div>
       <div class="row justify-content-center">
-        <SingleCard class="col-2 me-3" v-for="(element, index) in filteredCards" :key="index" :index='index'
+        <SingleCard class="col-2 me-3" v-for="(element, index) in filterdByAuthor" :key="index" :index='index'
           :element="element" />
       </div>
     </div>
@@ -31,10 +31,12 @@ export default {
   data: function () {
     return {
       cardsList: [],
-      filteredCards: [],
-      loader: false,
+      loader: true,
       userSelected: '',
       authorSelected: '',
+
+      filteredCards: [],
+      filterdByAuthor: [],
       genresList: [],
       authorsList: [],
     }
@@ -46,11 +48,10 @@ export default {
           this.cardsList = result.data.response
           this.filteredCards = [...this.cardsList]
           this.initGenres()
-          this.initAuthors()
           this.timeOut()
+          this.initAuthors()
           this.searchGenre(this.userSelected)
           this.searchAuthor(this.authorSelected)
-
         })
     },
     timeOut() {
@@ -58,12 +59,10 @@ export default {
         this.loader = true
       }, 2000)
     },
+    // genres zone
     searchGenre(element) {
       console.log(element)
       this.filteredCards = [...this.cardsList].filter((artist) => artist.genre.includes(element))
-    },
-    searchAuthor(element) {
-      this.filteredCards = [...this.cardsList].filter((artist) => artist.author.includes(element))
     },
     setUserSelect(choice) {
       this.userSelected = choice
@@ -76,13 +75,29 @@ export default {
         }
       }
     },
+
+
+    // author zone
+    searchAuthor(element) {
+      this.filterdByAuthor = [...this.filteredCards].filter((artist) => artist.author.includes(element))
+      console.log(this.filterdByAuthor)
+    },
+
+    setAuthorSelect(choice) {
+      this.authorSelected = choice
+      this.searchAuthor(this.authorSelected)
+    },
+
     initAuthors() {
       for (let i = 0; i < this.cardsList.length; i++) {
         if (!this.authorsList.includes(this.cardsList[i].author)) {
           this.authorsList.push(this.cardsList[i].author)
         }
+        console.log(this.authorsList)
       }
     },
+
+
     created() {
       this.getCard()
     },

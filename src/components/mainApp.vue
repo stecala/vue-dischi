@@ -6,7 +6,7 @@
         <authorsUser class="col-4 m-auto" @selectAuthor="setAuthorSelect" :authorsList="authorsList" />
       </div>
       <div class="row justify-content-center">
-        <SingleCard class="col-2 me-3" v-for="(element, index) in filterdByAuthor" :key="index" :index='index'
+        <SingleCard class="col-2 me-3" v-for="(element, index) in filteredCards" :key="index" :index='index'
           :element="element" />
       </div>
     </div>
@@ -36,7 +36,6 @@ export default {
       authorSelected: '',
 
       filteredCards: [],
-      filterdByAuthor: [],
       genresList: [],
       authorsList: [],
     }
@@ -48,10 +47,11 @@ export default {
           this.cardsList = result.data.response
           this.filteredCards = [...this.cardsList]
           this.initGenres()
-          this.timeOut()
           this.initAuthors()
+          this.timeOut()
           this.searchGenre(this.userSelected)
           this.searchAuthor(this.authorSelected)
+
         })
     },
     timeOut() {
@@ -59,10 +59,10 @@ export default {
         this.loader = true
       }, 2000)
     },
+
     // genres zone
     searchGenre(element) {
-      console.log(element)
-      this.filteredCards = [...this.cardsList].filter((artist) => artist.genre.includes(element))
+      this.filteredCards = this.cardsList.filter((artist) => artist.genre.includes(element))
     },
     setUserSelect(choice) {
       this.userSelected = choice
@@ -79,8 +79,7 @@ export default {
 
     // author zone
     searchAuthor(element) {
-      this.filterdByAuthor = [...this.filteredCards].filter((artist) => artist.author.includes(element))
-      console.log(this.filterdByAuthor)
+      this.filteredCards = this.filteredCards.filter((artist) => artist.author.includes(element))
     },
 
     setAuthorSelect(choice) {
@@ -97,11 +96,12 @@ export default {
       }
     },
 
+  },
 
-    created() {
-      this.getCard()
-    },
-  }
+  created() {
+  console.log('1')
+    this.getCard()
+  },
 }
 </script>
 

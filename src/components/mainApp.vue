@@ -1,6 +1,9 @@
 <template>
   <main class="d-flex justify-content-center align-items-center">
       <div class="container pt-5" v-if="(loader)">
+        <div class="row">
+            <InputsUser class="col-6 m-auto" />
+        </div>
         <div class="row justify-content-center">
             <SingleCard class="col-2 me-3" v-for="(element, index) in cardsList"  :key="index"
                 :index='index'
@@ -15,14 +18,15 @@
 <script>
 import SingleCard from './singleCard.vue'
 import LoaderApp from './loaderApp.vue'
-
+import InputsUser from './inputsUser.vue'
 import axios from 'axios'
 
 export default {
   components :{
     SingleCard,
     LoaderApp,
-  },
+    InputsUser,
+},
   data : function(){
     return {
       cardsList : [],

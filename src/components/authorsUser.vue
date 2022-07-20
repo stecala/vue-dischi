@@ -2,8 +2,7 @@
     <div>
         <select class="form-select" aria-label="Default select example" v-model="authorSelect"
             @change="$emit('selectAuthor', authorSelect)">
-            <option v-for="(element, index) in authorsList" :value="element" :key="index">{{ element }}</option>
-            <option value="">All Authors</option>
+            <option v-for="(element, index) in authorsList" :value="element" :key="index">{{element}}</option>
         </select>
     </div>
 </template>

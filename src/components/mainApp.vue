@@ -2,7 +2,7 @@
   <main class="d-flex justify-content-center align-items-center">
       <div class="container pt-5" v-if="(loader)">
         <div class="row">
-            <InputsUser class="col-4 m-auto" @select="setUserSelect" :genresList="genresList" />
+            <genresUser class="col-4 m-auto" @select="setUserSelect" :genresList="genresList" />
         </div>
         <div class="row justify-content-center">
             <SingleCard class="col-2 me-3" v-for="(element, index) in filteredCards"  :key="index"
@@ -18,14 +18,14 @@
 <script>
 import SingleCard from './singleCard.vue'
 import LoaderApp from './loaderApp.vue'
-import InputsUser from './inputsUser.vue'
+import genresUser from './genresUser.vue'
 import axios from 'axios'
 
 export default {
   components :{
     SingleCard,
     LoaderApp,
-    InputsUser,
+    genresUser,
 },
   data : function(){
     return {

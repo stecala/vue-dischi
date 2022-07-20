@@ -2,10 +2,10 @@
   <main class="d-flex justify-content-center align-items-center">
       <div class="container pt-5" v-if="(loader)">
         <div class="row">
-            <InputsUser class="col-6 m-auto" />
+            <InputsUser class="col-4 m-auto" @select="setUserSelect" />
         </div>
         <div class="row justify-content-center">
-            <SingleCard class="col-2 me-3" v-for="(element, index) in cardsList"  :key="index"
+            <SingleCard class="col-2 me-3" v-for="(element, index) in filteredCards"  :key="index"
                 :index='index'
                 :element="element" 
             />
@@ -30,26 +30,38 @@ export default {
   data : function(){
     return {
       cardsList : [],
+      filteredCards : [],
       loader : false,
+      userSelected : '',
     }
   },
   methods : {
     getCard(){
       axios.get('https://flynn.boolean.careers/exercises/api/array/music')
       .then((result)=> {
-        this.cardsList = result.data.response;
+        this.cardsList = result.data.response
+        this.filteredCards= [...this.cardsList]
         this.timeOut()
+        this.searchGenre(this.userSelected)
+
       })
     },
     timeOut(){
       setTimeout(()=>{
         this.loader = true
       },2000)
+    },
+    searchGenre(element){
+        console.log(element)
+        this.filteredCards= [...this.cardsList].filter((artist) => artist.genre.includes(element))  
+    },
+    setUserSelect(choice){
+        this.userSelected = choice
+        this.searchGenre(this.userSelected)
     }
   },
   created(){
     this.getCard()
-    this.timeOut()
   } 
 }
 </script>

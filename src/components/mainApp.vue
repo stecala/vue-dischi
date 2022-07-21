@@ -31,7 +31,7 @@ export default {
   data: function () {
     return {
       cardsList: [],
-      loader: true,
+      loader: false,
       genreSelected: '',
       authorSelected: '',
 
@@ -100,7 +100,6 @@ export default {
     },
     onGenreSelected(selectedGenre){
         this.filteredAuthors = this.filteredCards.filter((card)=> card.genre == selectedGenre).map((card) => card.author)
-        console.log(this.filteredCards)
     }
 
   },
